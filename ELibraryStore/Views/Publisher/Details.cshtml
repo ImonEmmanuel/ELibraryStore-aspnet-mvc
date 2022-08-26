@@ -1,0 +1,51 @@
+﻿@model Publisher
+
+@{
+    ViewData["Title"] = "Details of Publisher";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1> @Model.FullName</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+
+                    <div class="form-group text-center"> <img class = "border-info rounded-circle" style = "max-width: 150px" id = "ProfielPicturePreview" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProfilePictureUrl" class="control-label"></label>
+                        <input asp-for="ProfilePictureUrl" class="form-control" readonly/>
+                        <span asp-validation-for="ProfilePictureUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FullName" class="control-label"></label>
+                        <input asp-for ="FullName" class="form-control" readonly/>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"class="control-label"></label>
+                        <input asp-for ="Description" class="form-control" readonly/>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <a class="btn btn-outline-secondary float:right" asp-action="Index">Show All</a>
+                        <a class="btn btn-outline-success " asp-action="Edit", asp-route-id = "@Model.Id"> Edit </a>
+                       
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function (){
+            var output = document.getElementById('ProfielPicturePreview');
+            output.src = $("#ProfilePictureUrl").val();
+        })
+    </script>
+}
