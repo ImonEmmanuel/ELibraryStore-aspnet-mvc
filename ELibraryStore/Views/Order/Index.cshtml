@@ -1,0 +1,53 @@
+﻿@using ELibraryStore.Data
+@model List<Order>
+
+@{
+    ViewData["Title"] = "All Orders";
+}
+@{
+    var price = new Conversion();
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h4> Liss of all your orders</h4>
+        </p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> Orders ID</th>
+                    <td> Items</td>
+                    <th> Total</th>
+                    <th> User</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td class = "align-middle">@order.Id</td>
+                        <td class = "align-middle">
+                            <ul style="list-style-type: none">
+                                @foreach (var item in order.OrderItems)
+                                {
+                                    <li>
+                                        <div class="alert alert-info" role="alert">
+                                            <span class="badge bg-success">@item.Amount</span>[@price.CurrencyConversion(@item.Price)] -@item.Book.Name
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @(price.CurrencyConversion(@order.OrderItems.Select(n => n.Book.Price * n.Amount).Sum()))
+                        </td>
+                        <td class="align-middle"> </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

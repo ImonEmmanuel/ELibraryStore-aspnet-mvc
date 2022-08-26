@@ -1,0 +1,91 @@
+﻿@using ELibraryStore.Data
+@model Book
+
+@{
+    var price = new Conversion();
+}
+@{
+    ViewData["Title"] = "Book";
+}
+
+<div class ="row">
+        <div class="col-md-8 offset-2">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-info">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @Model.Name
+                                    <a class="text-white float-end" asp-action="Edit" asp-route-id="@Model.Id">
+                                         <i class="bi bi-eye"></i>
+                                     </a>
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src = "@Model.ImageUrl" width="100%" alt="@Model.Name">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text">@Model.Description Sample</p>
+                            <p class="card-text">
+                                <b> BookStore: </b>
+                                <a asp-controller="BookStore" asp-action="Details" asp-route-id = "@Model.BookStoreId">
+                                    @Model.BookStore.Name
+                                </a>
+                            </p>
+
+                            <p class="card-text">
+                                <b> Publisher: </b>
+                                <a asp-controller="Publisher" asp-action="Details" asp-route-id = "@Model.PublisherId">
+                                    @Model.Publisher.FullName
+                                </a>
+                            </p>
+
+                            <p class="card-text"><b>Category: </b>@Model.BookCategory</p>
+                            <p class="card-text"><b>Date Added: </b>@Model.DateAdded.ToString("dd MMM yy")</p>
+                            <p class="card-text"><b>BookEdition: </b>@Model.BookEdition</p>
+                            @if(@Model.BookUrl.Length > 12)
+                            {
+                                <p class="card-text"><b>Book Preview: </b>
+                                    <a href="@Model.BookUrl">Book PDF Download</a>
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="card-text"><b>Book Preview: </b> No Preview For this Book</p>
+                            }
+                            <p class="card-text">
+                                <b> Author: </b>
+                                <hr />
+                                <div class="row">
+                                    @foreach(var author in Model.Book_Authors)
+                                    {
+                                        <div class="column text-center">
+                                            <img class = "border-info rounded-circle" src="@author.Author.ProfilePictureUrl" style="max-width: 150px" />
+                                            <br />
+                                            <a asp-controller="Author", asp-action="Details" asp-route-id ="@author.AuthorId">@author.Author.FullName</a>
+                                        </div>
+                                    }
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card-footer">
+                        <p class="card-text">
+                            <a class="btn btn-outline-primary float-right" asp-action="Index">
+                                Back to List
+                            </a>
+                            <a class="btn btn-success text-white" asp-controller="Order", asp-action="AddToShoppingCart" asp-route-id="@Model.Id">
+                                <i class="bi bi-cart-plus"></i> Add to Cart(Price @price.CurrencyConversion(@Model.Price))
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
